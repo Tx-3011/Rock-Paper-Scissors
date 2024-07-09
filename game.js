@@ -1,28 +1,39 @@
+const rock = document.querySelector("#rock")
+const paper = document.querySelector("#paper")
+const scissor = document.querySelector("#scissor")
+const ui = document.querySelector("#ui")
+
+const result = document.createElement("p")
+const score = document.createElement("p")
+const finalOutcome = document.createElement("h3")
+
+let humanScore = 0
+let computerScore = 0
+let choiceH = 0
 
 
 function getComputerChoice(){
 
     let choiceC = Math.floor((Math.random()*3)+1)
 
+    console.log(choiceC);
     return choiceC
 
 }
-
-function getHumanChoice(){
-    let choiceH = 0
-    let y = prompt("Rock Paper Scissors?").toLowerCase()
     
-
-    if(y==="rock"){
-        choiceH=1
-    }else if(y==="paper"){
-        choiceH=2
-    }else if(y==="scissors"){
-        choiceH=3
-    }else{choiceH = "No option"}
-
-    return choiceH
-}
+    rock.addEventListener('click',()=>{
+        choiceH = 1
+    })
+    
+    paper.addEventListener('click',()=>{
+        choiceH = 2
+    })
+    
+    scissor.addEventListener('click',()=>{
+        choiceH = 3
+    })
+    
+    console.log(choiceH)
 
 
 
@@ -46,32 +57,28 @@ function playRound(human,computer,h,c){
     }
 
     if(human===computer){
-        console.log(`It's a tie you both chose ${nameH}`)
+        result.textContent = `It's a tie you both chose ${nameH}`
     }else if(human===1 && computer===2){
-        console.log(`The Computer wins since ${nameC} beats ${nameH}`)
+        result.textContent = `The Computer wins since ${nameC} beats ${nameH}`
         c++
     }else if(human===1 && computer===3){
-        console.log(`The Human wins since ${nameH} beats ${nameC}`)
+        result.textContent = `The Human wins since ${nameH} beats ${nameC}`
         h++
     }else if(human===2 && computer===1){
-        console.log(`The Human wins since ${nameH} beats ${nameC}`)
+        result.textContent = `The Human wins since ${nameH} beats ${nameC}`
         h++
     }else if(human===2 && computer===3){
-        console.log(`The Computer wins since ${nameC} beats ${nameH}`)
+        result.textContent = `The Computer wins since ${nameC} beats ${nameH}`
         c++
     }else if(human===3 && computer===1){
-        console.log(`The Computer wins since ${nameC} beats ${nameH}`)
+        result.textContent = `The Computer wins since ${nameC} beats ${nameH}`
         c++
     }else if(human===3 && computer===2){
-        console.log(`The Human wins since ${nameH} beats ${nameC}`)
+        result.textContent = `The Human wins since ${nameH} beats ${nameC}`
         h++
     }
 
     let scores = [h,c]
-
-    console.log(`Human Score: ${h}`)
-
-    console.log(`Computer Score: ${c}`)
 
     return scores
 
@@ -79,31 +86,33 @@ function playRound(human,computer,h,c){
 
 function playGame(){
 
-    let humanScore = 0
-    let computerScore = 0
-
-    for(let i=0;i<5;i++){
-        let human = getHumanChoice()
+        let human = choiceH
         let computer = getComputerChoice()
         let scores = playRound(human,computer,humanScore,computerScore)
         humanScore = scores[0]
         computerScore = scores[1]
-    }
 
 
-    console.log(`The final scores are:
+    score.textContent = `The points till now are:
     HUMAN: ${humanScore}
-    COMPUTER: ${computerScore}`)
+    COMPUTER: ${computerScore}`
 
     if(humanScore>computerScore){
-        console.log(`The human Wins`)
+        finalOutcome.textContent=`The human is in the lead`
     }else if(computerScore>humanScore){
-        console.log(`The Computer Wins`)
-    }else{console.log(`it's a Tie`);}
+        finalOutcome.textContent=`The Computer is in the lead`
+    }else{finalOutcome.textContent=`Both are in a Tie`}
 
 }
 
-playGame()
+ui.appendChild(result)
+ui.appendChild(finalOutcome)
+ui.appendChild(score)
+
+
+rock.addEventListener('click',playGame)
+paper.addEventListener('click',playGame)
+scissor.addEventListener('click',playGame)
 
 
 
